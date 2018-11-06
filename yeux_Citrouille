@@ -1,0 +1,334 @@
+//nb d'écrans
+int e = 2;
+#include "LedControl.h"
+//initialisation de LedControl (12 = Din, 11 = CLK, 10 = CS, e = écrans)
+LedControl lc = LedControl(12, 11, 10, e);
+//variables de temps
+int court = 1000;
+int tcourt = 100;
+int ttcourt = 30;
+int moyen = 5000;
+
+void setup() {
+  //initialisation des écrans
+  for(int i = 0; i<e; i++){
+  
+  lc.shutdown(i, false);
+  lc.setIntensity(i, 4);
+  lc.clearDisplay(i);
+  }
+  
+
+}
+//fonction qui permet d'ouvrir les yeux
+void ouvrir(){
+  byte ouvre[8]
+     {00
+  //ouvrir chaque rangés en commençant par le milieu
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 3, ouvre[3]);
+  lc.setRow(i, 4, ouvre[4]);
+  }
+  delay(tcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 2, ouvre[2]);
+  lc.setRow(i, 5, ouvre[5]);
+  }
+  delay(tcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 1, ouvre[1]);
+  lc.setRow(i, 6, ouvre[6]);
+  }
+  delay(tcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 0, ouvre[0]);
+  lc.setRow(i, 7, ouvre[7]);
+  }
+  }
+ //fonction pour quand les yeux sont fixes
+void normal(){
+  byte stat[8]
+     {B00111100,
+      B01111110,
+      B11100111,
+      B11011011,
+      B11011011,
+      B11100111,
+      B01111110,
+      B00111100};
+//allumer toutes les rangés pour chaque écran
+    for(int i = 0; i<e; i++){
+    lc.setRow(i, 0, stat[0]);
+    lc.setRow(i, 1, stat[1]);
+    lc.setRow(i, 2, stat[2]);
+    lc.setRow(i, 3, stat[3]);
+    lc.setRow(i, 4, stat[4]);
+    lc.setRow(i, 5, stat[5]);
+    lc.setRow(i, 6, stat[6]);
+    lc.setRow(i, 7, stat[7]);
+}
+    delay(moyen);
+
+  
+  
+  }
+  //Fonction pour cligner les yeux
+  void cligne(){
+    //on décide du nombre de clins
+    int clins = 2;
+  byte clin[8]
+     {B00111100,
+      B01111110,
+      B11100111,
+      B11011011,
+      B11011011,
+      B11100111,
+      B01111110,
+      B00111100};
+  byte vide[8]{
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000};
+  //On fait cligner les yeux un nombre de fois égal à clins
+  for(int i=0;i<clins;i++){
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 0, vide[0]);
+  lc.setRow(i, 7, vide[7]);
+  }
+  delay(ttcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 1, vide[1]);
+  lc.setRow(i, 6, vide[6]);
+  }
+  delay(ttcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 2, vide[2]);
+  lc.setRow(i, 5, vide[5]);
+  }
+  delay(ttcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 3, vide[3]);
+  lc.setRow(i, 4, vide[4]);
+  }
+  delay(tcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 3, clin[3]);
+  lc.setRow(i, 4, clin[4]);
+  }
+  delay(ttcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 2, clin[2]);
+  lc.setRow(i, 5, clin[5]);
+  }
+  delay(ttcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 1, clin[1]);
+  lc.setRow(i, 6, clin[6]);
+  }
+  delay(ttcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 0, clin[0]);
+  lc.setRow(i, 7, clin[7]);
+  }
+  delay(court);
+  }
+  delay(moyen);
+  }
+  //fonction qui permet à l'oeil de regarder à gauche puis à droite
+void gaucheDroite(){
+  byte hgauche[8]
+     {B00111100,
+      B01100110,
+      B11011011,
+      B11011011,
+      B11100111,
+      B11111111,
+      B01111110,
+      B00111100};
+  byte gauche[8]
+     {B00100100,
+      B01011010,
+      B10011011,
+      B11100111,
+      B11111111,
+      B11111111,
+      B01111110,
+      B00111100};
+  byte hdroite[8]
+     {B00111100,
+      B01111110,
+      B11111111,
+      B11100111,
+      B11011011,
+      B11011011,
+      B01100110,
+      B00111100};        
+  byte droite[8]
+     {B00111100,
+      B01111110,
+      B11111111,
+      B11111111,
+      B11100111,
+      B11011011,
+      B01011010,
+      B00100100};
+  byte stat[8]
+     {B00111100,
+      B01111110,
+      B11100111,
+      B11011011,
+      B11011011,
+      B11100111,
+      B01111110,
+      B00111100};
+    //faire regarder à moitié à gauche
+    for(int i = 0; i<e; i++){
+    lc.setRow(i, 0, hgauche[0]);
+    lc.setRow(i, 1, hgauche[1]);
+    lc.setRow(i, 2, hgauche[2]);
+    lc.setRow(i, 3, hgauche[3]);
+    lc.setRow(i, 4, hgauche[4]);
+    lc.setRow(i, 5, hgauche[5]);
+    lc.setRow(i, 6, hgauche[6]);
+    lc.setRow(i, 7, hgauche[7]);
+    }
+    delay(tcourt);
+    //regarder à gauche
+    for(int i = 0; i<e; i++){
+    lc.setRow(i, 0, gauche[0]);
+    lc.setRow(i, 1, gauche[1]);
+    lc.setRow(i, 2, gauche[2]);
+    lc.setRow(i, 3, gauche[3]);
+    lc.setRow(i, 4, gauche[4]);
+    lc.setRow(i, 5, gauche[5]);
+    lc.setRow(i, 6, gauche[6]);
+    lc.setRow(i, 7, gauche[7]);
+    }
+    delay(court);
+    //revenir au milieu
+    for(int i = 0; i<e; i++){
+    lc.setRow(i, 0, hgauche[0]);
+    lc.setRow(i, 1, hgauche[1]);
+    lc.setRow(i, 2, hgauche[2]);
+    lc.setRow(i, 3, hgauche[3]);
+    lc.setRow(i, 4, hgauche[4]);
+    lc.setRow(i, 5, hgauche[5]);
+    lc.setRow(i, 6, hgauche[6]);
+    lc.setRow(i, 7, hgauche[7]);
+    }
+    delay(tcourt);
+    //rester au milieu
+    for(int i = 0; i<e; i++){
+    lc.setRow(i, 0, stat[0]);
+    lc.setRow(i, 1, stat[1]);
+    lc.setRow(i, 2, stat[2]);
+    lc.setRow(i, 3, stat[3]);
+    lc.setRow(i, 4, stat[4]);
+    lc.setRow(i, 5, stat[5]);
+    lc.setRow(i, 6, stat[6]);
+    lc.setRow(i, 7, stat[7]);
+    }
+    delay(court);
+    //regarder à moitié à droite
+    for(int i = 0; i<e; i++){
+    lc.setRow(i, 0, hdroite[0]);
+    lc.setRow(i, 1, hdroite[1]);
+    lc.setRow(i, 2, hdroite[2]);
+    lc.setRow(i, 3, hdroite[3]);
+    lc.setRow(i, 4, hdroite[4]);
+    lc.setRow(i, 5, hdroite[5]);
+    lc.setRow(i, 6, hdroite[6]);
+    lc.setRow(i, 7, hdroite[7]);
+    }
+    delay(tcourt);
+    //regarder à droite
+    for(int i = 0; i<e; i++){
+    lc.setRow(i, 0, droite[0]);
+    lc.setRow(i, 1, droite[1]);
+    lc.setRow(i, 2, droite[2]);
+    lc.setRow(i, 3, droite[3]);
+    lc.setRow(i, 4, droite[4]);
+    lc.setRow(i, 5, droite[5]);
+    lc.setRow(i, 6, droite[6]);
+    lc.setRow(i, 7, droite[7]);
+    }
+    delay(court);
+    //revenir au milieu
+    for(int i = 0; i<e; i++){
+    lc.setRow(i, 0, hdroite[0]);
+    lc.setRow(i, 1, hdroite[1]);
+    lc.setRow(i, 2, hdroite[2]);
+    lc.setRow(i, 3, hdroite[3]);
+    lc.setRow(i, 4, hdroite[4]);
+    lc.setRow(i, 5, hdroite[5]);
+    lc.setRow(i, 6, hdroite[6]);
+    lc.setRow(i, 7, hdroite[7]);
+    }
+    delay(tcourt);
+    //rester au milieu
+    for(int i = 0; i<e; i++){
+    lc.setRow(i, 0, stat[0]);
+    lc.setRow(i, 1, stat[1]);
+    lc.setRow(i, 2, stat[2]);
+    lc.setRow(i, 3, stat[3]);
+    lc.setRow(i, 4, stat[4]);
+    lc.setRow(i, 5, stat[5]);
+    lc.setRow(i, 6, stat[6]);
+    lc.setRow(i, 7, stat[7]);
+    }
+    
+    delay(moyen);
+  }
+  //fonction pour fermer les yeux
+void fermer(){
+   byte vide[8]{
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000};
+  //fermer les rangées à partir des extrêmités
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 0, vide[0]);
+  lc.setRow(i, 7, vide[7]);
+  }
+  delay(ttcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 1, vide[1]);
+  lc.setRow(i, 6, vide[6]);
+  }
+  delay(ttcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 2, vide[2]);
+  lc.setRow(i, 5, vide[5]);
+  }
+  delay(ttcourt);
+  for(int i = 0; i<e; i++){
+  lc.setRow(i, 3, vide[3]);
+  lc.setRow(i, 4, vide[4]);
+  }
+  delay(court);
+  
+  
+  
+  }
+
+void loop() {
+  for(int i = 0; i<e; i++){
+  lc.clearDisplay(i);
+  }
+  ouvrir();
+  normal();
+  cligne();
+  gaucheDroite();
+  fermer();
+
+}
