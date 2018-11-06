@@ -1,0 +1,43 @@
+#include <LedControl.h>
+
+#include "LedControl.h"
+LedControl lc = LedControl(12, 11, 10, 1);
+long delaytime = 1000;
+void setup() {
+  lc.shutdown(0, false);
+  lc.setIntensity(0, 8);
+  lc.clearDisplay(0);
+
+}
+
+void nameOfFunction(){
+  byte nameOfByte[8]{
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000,
+      B00000000    
+    };
+    lc.setRow(0, 0, nameOfByte[0]);
+    lc.setRow(0, 1, nameOfByte[1]);
+    lc.setRow(0, 2, nameOfByte[2]);
+    lc.setRow(0, 3, nameOfByte[3]);
+    lc.setRow(0, 4, nameOfByte[4]);
+    lc.setRow(0, 5, nameOfByte[5]);
+    lc.setRow(0, 6, nameOfByte[6]);
+    lc.setRow(0, 7, nameOfByte[7]);
+    delay(delaytime);
+    lc.clearDisplay(0);
+    delay(delaytime);
+    
+  
+  
+  }
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  nameOfFunction();
+}
